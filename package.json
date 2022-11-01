@@ -1,7 +1,22 @@
 {
   "name": "react-texas",
   "version": "0.1.0",
+  "description": "React text ellipsis component",
+  "author": "librz",
   "private": true,
+  "main": "dist/index.js",
+  "keywords": [
+    "react",
+    "ellipsis"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/librz/react-texas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/librz/react-texas/issues"
+  },
+  "homepage": "https://github.com/librz/react-texas#readme",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -18,9 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "rm -rf dist && NODE_ENV=production babel src/lib --copy-files --out-dir dist --extensions=.js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +52,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.6",
+    "@babel/preset-env": "^7.19.4",
+    "@babel/preset-typescript": "^7.18.6"
   }
 }
