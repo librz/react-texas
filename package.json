@@ -7,7 +7,9 @@
   "main": "dist/index.js",
   "keywords": [
     "react",
-    "ellipsis"
+    "ellipsis",
+    "text",
+    "texas"
   ],
   "repository": {
     "type": "git",
