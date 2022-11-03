@@ -1,6 +1,6 @@
 {
   "name": "react-texas",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "React text ellipsis component",
   "author": "librz",
   "private": false,
@@ -17,12 +17,6 @@
     "url": "https://github.com/librz/react-texas/issues"
   },
   "homepage": "https://github.com/librz/react-texas#readme",
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.8.4"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "rm -rf dist && NODE_ENV=production babel src/lib --copy-files --out-dir dist --extensions=.js,.jsx,.ts,.tsx"
@@ -46,6 +40,10 @@
     ]
   },
   "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.8.4",
     "@types/node": "^16.18.3",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
