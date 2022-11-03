@@ -5,6 +5,7 @@
   "author": "librz",
   "private": false,
   "main": "dist/index.js",
+  "types": "dist/Ellipsis.d.ts",
   "keywords": [
     "react",
     "ellipsis",
@@ -21,7 +22,7 @@
   "homepage": "https://github.com/librz/react-texas#readme",
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf dist && NODE_ENV=production babel src/lib --copy-files --out-dir dist --extensions=.js,.jsx,.ts,.tsx"
+    "build": "rm -rf dist && tsc --emitDeclarationOnly && NODE_ENV=production babel src/lib --copy-files --out-dir dist --extensions=.js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
