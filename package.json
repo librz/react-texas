@@ -1,9 +1,10 @@
 {
   "name": "react-texas",
-  "version": "0.1.4",
+  "version": "0.1.8",
   "description": "React text ellipsis component",
   "author": "librz",
   "private": false,
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/Ellipsis.d.ts",
   "keywords": [
