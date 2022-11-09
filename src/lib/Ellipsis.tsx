@@ -3,14 +3,14 @@ import React, { FC, HTMLProps, CSSProperties, createElement } from 'react';
 interface IProps extends HTMLProps<HTMLElement> {
   as?: keyof React.ReactHTML;
   maxLines?: number;
-  placement?: "right" | "left"; 
+  placement?: "auto" | "right" | "left";
 }
 
 const Ellipsis: FC<IProps> = ({
   as = "div",
   maxLines = 1,
-  placement = "right",
-  dir = "ltr",
+  placement = "auto", // follow text direction
+  dir = "auto",
   children,
   style,
   ...otherProps
@@ -18,21 +18,30 @@ const Ellipsis: FC<IProps> = ({
   const containerStyle: CSSProperties = Object.assign<CSSProperties, CSSProperties>({
     overflow: "hidden",
     textOverflow: "ellipsis",
-    direction: placement === "right" ? "ltr" : "rtl",
     ...style
   }, maxLines === 1 ? { whiteSpace: "nowrap" } : {
     display: "-webkit-box",
     "WebkitLineClamp": maxLines,
     "WebkitBoxOrient": "vertical"
   });
-  // use css's direction prop to rtl in order to place ellipsis on the left can be dangerous,
-  // for example: 163.net will be displayed as net.163
-  // to fix this, use bdi element's dir attr to tell the browser the actual writing direction is ltr,
-  // see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdi
-  const innerNode = (
-    <bdi dir={dir}>{children}</bdi>
-  )
-  return createElement(as, { style: containerStyle, ...otherProps }, innerNode)
+  if (placement === "auto") {
+    return createElement(as, { style: containerStyle, ...otherProps }, children)
+  } else {
+    const direction: "ltr" | "rtl" = placement === "left" ? "rtl" : "ltr"
+    Object.assign<CSSProperties, CSSProperties>(containerStyle, { direction })
+    if (direction === dir) {
+      return createElement(as, { style: containerStyle, ...otherProps }, children)
+    } else {
+      // when css's direction & text's writing direction are different, error may occur.
+      // for example: <div style="direction: ltr;">163.net<div> will be displayed as net.163
+      // to fix this, use bdi element's dir attr to tell the browser the actual writing direction
+      // see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdi
+      const innerNode = (
+        <bdi dir={dir}>{children}</bdi>
+      )
+      return createElement(as, { style: containerStyle, ...otherProps }, innerNode)
+    }
+  }
 };
 
 export default Ellipsis;
