@@ -61,3 +61,20 @@ import Ellipsis from 'react-texas'
   Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 </Ellipsis>
 ```
+
+### get notified when visibility of ellipsis changed
+
+you may want to show a tooltip when ellipsis is visible(text), it's possible to do so using the `onEllipsisVisibilityChange` method
+
+```tsx
+import Ellipsis from 'react-texas'
+<Ellipsis 
+  onEllipsisVisibilityChange={visible => {
+    if (visible) { console.log("Ellipsis is visible, text is trimmed, show tooltip.") }
+    else { console.log("Text is displayed in full.") }
+  }}
+  style={{ width: 200, fontSize: 16, border: "1px solid orange", padding: 4 }}
+>
+  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+</Ellipsis>
+```

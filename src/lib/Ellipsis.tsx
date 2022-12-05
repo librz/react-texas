@@ -41,7 +41,7 @@ const Ellipsis: FC<IProps> = ({
   });
 
   function renderElement(inner: ReactNode) {
-    return createElement(as, { style: containerStyle, ref: containerRef, ...otherProps }, children)
+    return createElement(as, { style: containerStyle, ref: containerRef, ...otherProps }, inner)
   }
 
   if (placement === "auto") {
