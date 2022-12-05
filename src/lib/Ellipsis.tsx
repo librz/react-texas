@@ -1,9 +1,10 @@
-import React, { FC, HTMLProps, CSSProperties, createElement } from 'react';
+import React, { FC, HTMLProps, CSSProperties, createElement, useRef, useEffect, ReactNode } from 'react';
 
 interface IProps extends HTMLProps<HTMLElement> {
   as?: keyof React.ReactHTML;
   maxLines?: number;
   placement?: "auto" | "right" | "left";
+  onEllipsisVisibilityChange?: (visible: boolean) => void;
 }
 
 const Ellipsis: FC<IProps> = ({
@@ -13,8 +14,22 @@ const Ellipsis: FC<IProps> = ({
   dir = "auto",
   children,
   style,
+  onEllipsisVisibilityChange,
   ...otherProps
 }) => {
+
+  const containerRef = useRef<HTMLElement>(null);
+
+  const ellipsisVisible: boolean = (function() {
+    if (!containerRef.current) return false;
+    const { clientWidth, scrollWidth } = containerRef.current;
+    return clientWidth < scrollWidth;
+  })();
+
+  useEffect(() => {
+    onEllipsisVisibilityChange && onEllipsisVisibilityChange(ellipsisVisible);
+  }, [ellipsisVisible])
+
   const containerStyle: CSSProperties = Object.assign<CSSProperties, CSSProperties>({
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -24,22 +39,24 @@ const Ellipsis: FC<IProps> = ({
     "WebkitLineClamp": maxLines,
     "WebkitBoxOrient": "vertical"
   });
+
+  function renderElement(inner: ReactNode) {
+    return createElement(as, { style: containerStyle, ref: containerRef, ...otherProps }, children)
+  }
+
   if (placement === "auto") {
-    return createElement(as, { style: containerStyle, ...otherProps }, children)
+    return renderElement(children)
   } else {
     const direction: "ltr" | "rtl" = placement === "left" ? "rtl" : "ltr"
     Object.assign<CSSProperties, CSSProperties>(containerStyle, { direction })
     if (direction === dir) {
-      return createElement(as, { style: containerStyle, ...otherProps }, children)
+      return renderElement(children)
     } else {
       // when css's direction & text's writing direction are different, error may occur.
       // for example: <div style="direction: ltr;">163.net<div> will be displayed as net.163
       // to fix this, use bdi element's dir attr to tell the browser the actual writing direction
       // see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/bdi
-      const innerNode = (
-        <bdi dir={dir}>{children}</bdi>
-      )
-      return createElement(as, { style: containerStyle, ...otherProps }, innerNode)
+      return renderElement(<bdi dir={dir}>{children}</bdi>)
     }
   }
 };
